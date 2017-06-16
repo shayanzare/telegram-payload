@@ -1,1 +1,37 @@
-# tel-payload
+# Telegram Payload
+
+Payload by Bot Telegram with 2 programming language 
+
+C++/Qt and Ruby
+
+## Run Ruby Payload
+
+Install bundle gem :
+
+```ruby
+gem install bundle
+```
+
+then run bundle to install required gems :
+
+```ruby
+bundle install
+```
+
+Config Token bot in ruby payload then run it...
+
+## Run C++/Qt Payload
+
+Run project with Qt Creator then Config Token and build/run it...
+
+## Contact
+
+Telegram ID : @Msf_Payload
+
+Email : virus007@protonmail.com
+
+## License
+
+Please Read and Observe License!
+
+Thanks...
