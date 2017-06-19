@@ -11,6 +11,7 @@
 #include <QVariant>
 #include <QSysInfo>
 #include <QFile>
+#include "unistd.h"
 
 #include "qttelegrambot.h"
 
@@ -25,7 +26,14 @@ void newMessage(Telegram::Message message)
 
     if (bot && message.type == Telegram::Message::TextType) {
         if (message.string == "/start") {
-            bot->sendMessage(message.chat.id, "Hello " + message.from.firstname + " \n\n☠ Bot is online!\n\n Enter /help to get commands and help.");
+            if (getuid()) {
+                bot->sendMessage(message.chat.id, "Hello " + message.from.firstname + " \n\n☠ Bot is online!\nAccess system is Root? :False\n\n Enter /help to get commands and help.");
+            }
+            else
+            {
+                qDebug() << "True";
+                bot->sendMessage(message.chat.id, "Hello " + message.from.firstname + " \n\n☠ Bot is online!\nAccess system is Root? :True\n\n Enter /help to get commands and help.");
+            }
         }
         //Help command
         else if (message.string == "/help") {
