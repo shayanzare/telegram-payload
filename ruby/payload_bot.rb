@@ -12,7 +12,7 @@ require_relative "lib/info"
 require_relative "lib/screenShot"
 
 #Token bot
-$TOKEN = "304212840:AAHy8zMXUrWopY0SUzuwMkU7GpLxAil69HQ"
+$TOKEN = ""
 
 Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
     begin
