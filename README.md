@@ -1,9 +1,29 @@
 # Telegram Payload
 
-Payload by Bot Telegram with 2 programming language 
+Payload by Bot Telegram with 2 programming language
 
 C++/Qt and Ruby
 
+## Features
+
+#### Ruby Payload
+
+```bash
+/info => To Get ip and system info
+/screenShot  =>  Get ScreenShot of system
+/down_pic  =>  Download pictures from target system
+
+Run shell command!
+```
+
+#### C++/Qt Payload
+
+```bash
+/info => To Get ip and system info
+/screenShot  =>  Get ScreenShot of system
+
+Run shell command!
+```
 ## Run Ruby Payload
 
 Install bundle gem :
