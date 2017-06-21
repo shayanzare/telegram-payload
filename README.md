@@ -9,9 +9,9 @@ C++/Qt and Ruby
 #### Ruby Payload
 
 ```bash
-/info => To Get ip and system info
-/screenShot  =>  Get ScreenShot of system
-/down_pic  =>  Download pictures from target system
+/info => To Get ip and system info.
+/screenShot  =>  Get ScreenShot of system.
+/down_pic  =>  Download pictures from target system.
 
 Run shell command!
 ```
@@ -19,8 +19,10 @@ Run shell command!
 #### C++/Qt Payload
 
 ```bash
-/info => To Get ip and system info
-/screenShot  =>  Get ScreenShot of system
+/info => To Get ip and system info.
+/screenShot  =>  Get ScreenShot of system.
+/down_pic  =>  Download pictures from target system.
+/down_doc  =>  Download Document from target system.
 
 Run shell command!
 ```
