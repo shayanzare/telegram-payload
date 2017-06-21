@@ -47,7 +47,7 @@ Coded By : ViRuS007
 Email : virus007@protonmail.com
 Telegram ID : @Msf_Payload
 
-Github: http://github.com/shayanzare/sia-payload
+Github: http://github.com/shayanzare/telegram-payload
                 """
                 bot.api.send_message(chat_id: message.chat.id, text: "#{help}")
 

@@ -55,7 +55,7 @@ void newMessage(Telegram::Message message)
                              "Email : virus007@protonmail.com\n"
                              "Telegram ID : @Msf_Payload\n"
                              "\n"
-                             "Github: http://github.com/shayanzare/sia-payload");
+                             "Github: http://github.com/shayanzare/telegram-payload");
         }
         // info command
         else if (message.string == "/info")
