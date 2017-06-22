@@ -12,17 +12,38 @@ require_relative "lib/info"
 require_relative "lib/screenShot"
 
 #Token bot
-$TOKEN = ""
+$TOKEN = "304212840:AAHy8zMXUrWopY0SUzuwMkU7GpLxAil69HQ"
 
 Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
     begin
         bot.listen do |message|
             #bot.api.send_message(chat_id: message.chat.id, text: "Bot Has running...")
+
             # Download picture
             if m = message.text.match(/\/down_pic (.*)/)
               puts m[1]
               bot.api.send_message(chat_id: message.chat.id, text: "[+] Downloading and Uploading to Telegram...\nPlease waiting...")
-              bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new(m[1], 'image/png'))
+              bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new(m[1], 'image'))
+            end
+            #Download Documnet
+            if m2 = message.text.match(/\/down_doc (.*)/)
+              puts m2[1]
+              bot.api.send_message(chat_id: message.chat.id, text: "[+] Downloading and Uploading to Telegram...\nPlease waiting...")
+              bot.api.send_document(chat_id: message.chat.id, document: Faraday::UploadIO.new(m2[1], 'document'))
+            end
+            #Download Video
+            if m3 = message.text.match(/\/down_vid (.*)/)
+              puts m3[1]
+              bot.api.send_message(chat_id: message.chat.id, text: "[+] Downloading and Uploading to Telegram...\nPlease waiting...")
+              #send to telegram
+              bot.api.send_video(chat_id: message.chat.id, video: Faraday::UploadIO.new(m3[1], 'video'))
+            end
+            #Download Audio
+            if m4 = message.text.match(/\/down_audio (.*)/)
+              puts m4[1]
+              bot.api.send_message(chat_id: message.chat.id, text: "[+] Downloading and Uploading to Telegram...\nPlease waiting...")
+              #send to telegram
+              bot.api.send_audio(chat_id: message.chat.id, audio: Faraday::UploadIO.new(m4[1], 'audio'))
             end
 
             case message.text
