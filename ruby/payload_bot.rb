@@ -3,16 +3,19 @@
 #   Coded by ViRuS007
 
 require "telegram/bot"
-require "cloudinary"
-require "json"
-require "dropbox_api"
+# require "cloudinary"
+# require "json"
+# require "dropbox_api"
 #require modules
+require_relative "gems/json/lib/json"
+
+
 require_relative "lib/check_root"
 require_relative "lib/info"
 require_relative "lib/screenShot"
 
 #Token bot
-$TOKEN = ""
+$TOKEN = "400122504:AAHkTMycBBWTTcKMZvGpVEW_QFAFhzsm7IU"
 
 Telegram::Bot::Client.run($TOKEN, logger: Logger.new($stdout)) do |bot|
     begin
