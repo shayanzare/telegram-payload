@@ -4,6 +4,10 @@ Payload by Bot Telegram with 2 programming language
 
 C++/Qt and Ruby
 
+## Tested
+
+This Payload tested in <b>Mac OS Kernel Version 16.7.0 , Xubuntu 16.4 , Windows 7 8 10 </b>
+
 ## Features
 
 #### Ruby Payload
